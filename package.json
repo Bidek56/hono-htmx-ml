@@ -1,0 +1,27 @@
+{
+  "name": "hono-htmx-ml",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun --hot run src/index.tsx && bun run dev:tailwind",
+    "start": "bun run build/index.js",
+    "dev:tailwind": "bun run build:tailwind -- --watch",
+    "build:server": "bun build --target=bun ./src/index.tsx --outfile=build/index.js",
+    "build:tailwind": "tailwindcss -i ./src/tailwind.css -o ./public/tailwind.css",
+    "build": "bun run build:tailwind && bun run build:server"
+  },
+  "dependencies": {
+    "bun-types": "latest",
+    "@hono/zod-validator": "^0.2.1",
+    "daisyui": "^4.10.1",
+    "hono": "^4.2.4",
+    "tailwindcss": "^3.4.3",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
