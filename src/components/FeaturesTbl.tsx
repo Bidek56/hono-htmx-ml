@@ -5,7 +5,6 @@ export const FeaturesTbl = ({
 }: {
   rows?: Column[];
 }) => {
-
   if (!rows)
     return <div>Emtpy dt</div>
 
@@ -17,9 +16,9 @@ export const FeaturesTbl = ({
             <th>Feature</th>
             <th>Data type</th>
             <th>Feature type</th>
-            <th>Distinct values</th>
-            <th>Null values</th>
-            <th>Sample values</th>
+            <th>Distinct count</th>
+            <th>Null count</th>
+            <th>Samples</th>
             <th>Histogram</th>
           </tr>
         </thead>
@@ -33,10 +32,13 @@ export const FeaturesTbl = ({
   );
 }
 // class="border-b p-4 pl-8 pt-0 pb-3 text-slate-400 dark:text-slate-200"
-export const Row = ({ order }: { order: Column }) => (
+export const Row = ({ order: col }: { order: Column }) => (
   <tr>
-    <Cell item={order.name} />
-    <Cell item={order.type} />
+    <Cell item={col.name} />
+    <Cell item={col.type} />
+    <Cell item={col.type == "string" ? "categorical" : "numeric" } />
+    <Cell item={col.dist_cnt} />
+    <Cell item={col.null_cnt} />
   </tr>
 )
 

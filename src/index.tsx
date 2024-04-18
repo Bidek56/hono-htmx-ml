@@ -20,13 +20,29 @@ app.get('/', async (c) => {
   const db = new Database('./db/instacart.sqlite');
   const query = db.query("PRAGMA table_info(orders)");
   const results: Column[] = query.all() as Column[];
-  db.close();
 
   // console.log(results);
 
+  const distinctLst = results.map((c: Column) => {
+      const res: any = db.query(`SELECT count(distinct ${c.name}) as dist_cnt FROM orders`).get()
+      return {name: c.name, dist_cnt: res["dist_cnt"]};
+    });
+
+  const nullLst = results.map((c: Column) => {
+    const res: any = db.query(`SELECT count(1) as null_cnt FROM orders WHERE ${c.name} IS NULL OR trim(${c.name}, ' ') = '';`).get()
+    return {name: c.name, null_cnt: res["null_cnt"]};
+  });
+
+  // console.log(distinctLst);
+  
+  const mergedLst: any[] = [results, distinctLst, nullLst].reduce((a, b) => a.map((c: any, i) => Object.assign({}, c, b[i]) ));
+
+  // console.log(mergedLst);
+  db.close();
+
   return c.render(
     <div id="homepage">
-      <HomePage title="AutoML FE" rows={results} />
+      <HomePage title="AutoML FE" rows={mergedLst} />
     </div>
   )
 })
