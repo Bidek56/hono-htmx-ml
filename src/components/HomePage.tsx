@@ -1,6 +1,6 @@
 import { Layout } from "./Layout";
 import { FeaturesTbl } from "./FeaturesTbl"
-import { type Order } from '../types';
+import { type Column } from '../types';
 
 export const HomePage = (
   {
@@ -8,7 +8,7 @@ export const HomePage = (
     rows,
   }: {
     title: string;
-    rows?: Order[];
+    rows?: Column[];
   }
 ) => {
   return (

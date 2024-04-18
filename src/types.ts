@@ -7,3 +7,12 @@ export type Order = {
     order_hour_of_day: string
     days_since_prior_order: number
 }
+
+export type Column = {
+    cid: number
+    name: string
+    type: string
+    notnull: number
+    dflt_value: string
+    pk: number
+}

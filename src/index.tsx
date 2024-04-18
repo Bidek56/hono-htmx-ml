@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import { serveStatic } from 'hono/bun'
 import { Database } from "bun:sqlite";
+import { type Column } from './types';
 
 // import { z } from 'zod'
 // import { zValidator } from '@hono/zod-validator'
@@ -17,9 +18,11 @@ app.get('/about', async (c) => c.render(<AboutPage />) );
 
 app.get('/', async (c) => {
   const db = new Database('./db/instacart.sqlite');
-  const query = db.query("select * from orders order by user_id, order_id limit 5;");
-  const results: any[] = query.all();
+  const query = db.query("PRAGMA table_info(orders)");
+  const results: Column[] = query.all() as Column[];
   db.close();
+
+  // console.log(results);
 
   return c.render(
     <div id="homepage">
