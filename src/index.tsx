@@ -19,23 +19,24 @@ app.get('/about', async (c) => c.render(<AboutPage />) );
 app.get('/', async (c) => {
   const db = new Database('./db/instacart.sqlite');
   const query = db.query("PRAGMA table_info(orders)");
-  const results: Column[] = query.all() as Column[];
+  const colsRes: Column[] = query.all() as Column[];
 
   // console.log(results);
 
-  const distinctLst = results.map((c: Column) => {
-      const res: any = db.query(`SELECT count(distinct ${c.name}) as dist_cnt FROM orders`).get()
-      return {name: c.name, dist_cnt: res["dist_cnt"]};
-    });
+  const distinctLst = colsRes.map((c: Column) => {
+      const distRes: any = db.query(`SELECT count(distinct ${c.name}) as distCnt FROM orders`).get();
+      const nullRes: any = db.query(`SELECT count(1) as nullCnt FROM orders WHERE ${c.name} IS NULL OR trim(${c.name}, ' ') = '';`).get();
+      const grpsRes: any = db.query(`SELECT ${c.name}, count(1) as grpCnt FROM orders GROUP BY 1 ORDER BY 2 DESC LIMIT 3`).all();
 
-  const nullLst = results.map((c: Column) => {
-    const res: any = db.query(`SELECT count(1) as null_cnt FROM orders WHERE ${c.name} IS NULL OR trim(${c.name}, ' ') = '';`).get()
-    return {name: c.name, null_cnt: res["null_cnt"]};
-  });
+      // console.log(grpsRes);
+      // const grps = grpsRes.map(() => (g.) )
+
+      return {name: c.name, distCnt: distRes["distCnt"], nullCnt: nullRes["nullCnt"], grpsRes: grpsRes};
+    });
 
   // console.log(distinctLst);
   
-  const mergedLst: any[] = [results, distinctLst, nullLst].reduce((a, b) => a.map((c: any, i) => Object.assign({}, c, b[i]) ));
+  const mergedLst: any[] = [colsRes, distinctLst].reduce((a, b) => a.map((c: any, i) => Object.assign({}, c, b[i]) ));
 
   // console.log(mergedLst);
   db.close();

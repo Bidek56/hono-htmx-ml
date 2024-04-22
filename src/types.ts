@@ -15,6 +15,7 @@ export type Column = {
     notnull: number
     dflt_value: string
     pk: number
-    dist_cnt: number
-    null_cnt: number
+    distCnt: number
+    nullCnt: number
+    grpsRes: object
 }
