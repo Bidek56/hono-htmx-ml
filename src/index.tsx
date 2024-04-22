@@ -48,6 +48,14 @@ app.get('/', async (c) => {
   )
 })
 
+app.post(
+  '/submitModel',
+  async (c) => {
+    console.log("Reg: " + JSON.stringify(c.req));
+    return c.html(<div>Hello from model</div>)
+  }
+)
+
 // app.post(
 //   '/todo',
 //   zValidator(
