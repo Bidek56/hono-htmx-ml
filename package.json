@@ -12,16 +12,16 @@
   },
   "dependencies": {
     "bun-types": "latest",
-    "@hono/zod-validator": "^0.2.2",
-    "daisyui": "^4.12.10",
-    "hono": "^4.4.13",
-    "tailwindcss": "^3.4.4",
-    "zod": "^3.23.8"
+    "@hono/zod-validator": "^0.4.2",
+    "daisyui": "^4.12.23",
+    "hono": "^4.6.15",
+    "tailwindcss": "^3.4.17",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
-    "typescript": "^5.5.3"
+    "typescript": "^5.7.2"
   }
 }
